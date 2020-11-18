@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "MSharp.Build": {
+      "commandName": "Project",
+      "workingDirectory": "E:\\Geeks.MS\\FS.Recruit"
+    }
+  }
+}
