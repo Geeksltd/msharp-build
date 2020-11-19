@@ -1,14 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text;
 
 namespace MSharp.Build
 {
     static class Runtime
     {
         internal static bool IsWindows() => OS == OSPlatform.Windows;
+
         internal static bool IsLinux() => OS == OSPlatform.Linux;
 
         internal static OSPlatform OS

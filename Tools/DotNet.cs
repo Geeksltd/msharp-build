@@ -1,7 +1,4 @@
 ﻿using MSharp.Build.Installers;
-using Olive;
-using System;
-using System.IO;
 
 namespace MSharp.Build.Tools
 {
@@ -32,4 +29,4 @@ namespace MSharp.Build.Tools
     {
         protected override string Version => "3.1";
     }
-} 
+}

@@ -1,8 +1,6 @@
 ﻿using MSharp.Build.Installers;
 using MSharp.Build.Installers.Windows;
 using Olive;
-using System;
-using System.IO;
 
 namespace MSharp.Build.Tools
 {
