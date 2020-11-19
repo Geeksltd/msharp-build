@@ -39,6 +39,7 @@ namespace MSharp.Build
                 .To<XDocument>().Root.RemoveNamespaces()
                 .Descendants(XName.Get("PackageReference"))
                 .Select(v => new NugetReference(v.GetValue<string>("@Include"), v.GetValue<string>("@Version"), csproj))
+                .Where(v => v.Name.StartsWith("Olive") || v.Name.StartsWith("MSharp"))
                 .ToArray();
         }
 
@@ -71,9 +72,16 @@ namespace MSharp.Build
 
             foreach (var r in References.Where(v => v.Project.FullName == project.FullName))
             {
-                packageReference
-                   .Single(x => x.Attribute("Include").Value == r.Name)
-                   .Attribute("Version").Value = NewVersions[r.Name];
+                var node = packageReference.Single(x => x.Attribute("Include").Value == r.Name);
+
+                var newVersion = NewVersions[r.Name];
+                var old = node.Attribute("Version").Value;
+
+                if (newVersion != old)
+                {
+                    node.Attribute("Version").Value = newVersion;
+                    Console.WriteLine($"{project.Name}:  {r.Name} ({old}) --> ({newVersion})");
+                }
             }
 
             projectXML.Save(project.FullName);
