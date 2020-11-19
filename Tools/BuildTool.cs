@@ -1,8 +1,8 @@
-﻿using MSharp.Build.Installers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
+using MSharp.Build.Installers;
 
 namespace MSharp.Build.Tools
 {

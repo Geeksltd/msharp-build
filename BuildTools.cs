@@ -1,6 +1,6 @@
-﻿using MSharp.Build.Tools;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
+using MSharp.Build.Tools;
 
 namespace MSharp.Build
 {

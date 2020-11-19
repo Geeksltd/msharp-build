@@ -1,5 +1,5 @@
-﻿using Olive;
-using System.IO;
+﻿using System.IO;
+using Olive;
 
 namespace MSharp.Build.Installers.Windows
 {

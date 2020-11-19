@@ -4,21 +4,21 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <PackAsTool>true</PackAsTool>
-    <ToolCommandName>msharp-build</ToolCommandName>    
+    <ToolCommandName>msharp-build</ToolCommandName>
     <Company>Geeks Ltd</Company>
     <Authors>Geeks Ltd</Authors>
     <Description>Provides build functionality for M# projects</Description>
     <AssemblyName>msharp-build</AssemblyName>
-    <PackageIconUrl>https://github.com/Geeksltd/MSharp.Docs/raw/master/_media/MSharp.png</PackageIconUrl>    
+    <PackageIconUrl>https://github.com/Geeksltd/MSharp.Docs/raw/master/_media/MSharp.png</PackageIconUrl>
     <Product>msharp-build</Product>
     <PackageId>msharp-build</PackageId>
     <PackageReleaseNotes>Minor fixes</PackageReleaseNotes>
-    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>    
+    <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <Version>3.1.103</Version>
-    <AssemblyVersion>3.1.103</AssemblyVersion>
-    <FileVersion>3.1.103</FileVersion>
-    <PackageVersion>3.1.103</PackageVersion>
+    <Version>3.1.109</Version>
+    <AssemblyVersion>3.1.109</AssemblyVersion>
+    <FileVersion>3.1.109</FileVersion>
+    <PackageVersion>3.1.110</PackageVersion>
     <RepositoryUrl>https://github.com/Geeksltd/msharp-build</RepositoryUrl>
     <Copyright>Geeks Ltd 2020, All rights reserved.</Copyright>
   </PropertyGroup>

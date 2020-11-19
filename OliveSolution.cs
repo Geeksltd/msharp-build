@@ -1,25 +1,28 @@
-﻿using Olive;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
+using Olive;
 
 namespace MSharp.Build
 {
     class OliveSolution : Builder
     {
-        DirectoryInfo Root, Lib;
+        public static DirectoryInfo Root, Lib;
         readonly bool Publish;
         public bool IsDotNetCore, IsWebForms;
 
-        public OliveSolution(bool publish)
+        static OliveSolution()
         {
             Root = Environment.CurrentDirectory.AsDirectory();
+            Lib = Root.CreateSubdirectory(@"M#\lib");
+        }
 
+        public OliveSolution(bool publish)
+        {
             Console.WriteLine("Build started for: " + Root.FullName);
             Console.WriteLine();
 
             Publish = publish;
-            Lib = Root.CreateSubdirectory(@"M#\lib");
             IsDotNetCore = IsProjectDotNetCore();
             IsWebForms = Root.GetSubDirectory("Website").GetFiles("*.csproj").None();
 

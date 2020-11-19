@@ -1,34 +1,82 @@
-﻿using MSharp.Build.UpdateNuget;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Xml.Linq;
+using MSharp.Build.UpdateNuget;
 using Olive;
-using System;
-using System.Runtime.CompilerServices;
 
 namespace MSharp.Build
 {
-    public interface IUpdateNugetBuilder { void Log(string message, [CallerMemberName] string step = ""); }
-
-    class UpdateNugetBuilder : Builder, IUpdateNugetBuilder
+    class UpdateNugetBuilder : Builder
     {
-        MicroserviceItem Solution;
+        FileInfo[] ProjectFiles;
+        List<NugetReference> References = new List<NugetReference>();
+        Dictionary<string, string> NewVersions;
 
         protected override void AddTasks()
         {
-            Add(() => PrepareSolution());
-            Add(() => RefreshNugets());
-            Add(() => UpdateNugets());
+            Add(() => FindProjectFiles());
+            Add(() => FindUsedPackages());
+            Add(() => FindLatestVersions());
+            Add(() => UpdateProjects());
         }
 
-        void PrepareSolution()
+        void FindUsedPackages() => References = ProjectFiles.SelectMany(GetNugetPackages).ToList();
+
+        void FindProjectFiles()
         {
-            var root = Environment.CurrentDirectory.AsDirectory();
-
-            Solution = new MicroserviceItem { SolutionFolder = root.FullName, Builder = this };
+            ProjectFiles = new[] { "Website", "Domain", "M#\\Model", "M#\\UI" }
+                .Select(OliveSolution.Root.GetSubDirectory)
+                .Where(v => v.Exists())
+                   .Select(v => v.GetFiles("*.csproj").WithMax(x => x.LastWriteTimeUtc))
+                   .ExceptNull().ToArray();
         }
 
-        void RefreshNugets() => Solution.RefreshPackages();
+        static NugetReference[] GetNugetPackages(FileInfo csproj)
+        {
+            return csproj.ReadAllText().Trim()
+                .To<XDocument>().Root.RemoveNamespaces()
+                .Descendants(XName.Get("PackageReference"))
+                .Select(v => new NugetReference(v.GetValue<string>("@Include"), v.GetValue<string>("@Version"), csproj))
+                .ToArray();
+        }
 
-        void UpdateNugets() => Solution.UpdatePackages();
+        void FindLatestVersions()
+        {
+            string findLatestVersion(string package)
+            {
+                try
+                {
+                    return $"https://www.nuget.org/packages/{package}/".AsUri()
+                     .Download().GetAwaiter().GetResult().ToLower()
+                         .Substring($"<meta property=\"og:title\" content=\"{package.ToLower()} ", "\"", inclusive: false);
+                }
+                catch (Exception ex) when (ex.Message.Contains("404") || ex.Message.Contains("429"))
+                {
+                    throw new Exception("Failed to find latest nuget version for " + package);
+                }
+            }
 
-        void IUpdateNugetBuilder.Log(string message, [CallerMemberName] string step = "") => base.Log(message);
+            NewVersions = References.Select(v => v.Name).Distinct()
+                .ToDictionary(x => x, findLatestVersion);
+        }
+
+        void UpdateProjects() => ProjectFiles.Do(Update);
+
+        void Update(FileInfo project)
+        {
+            var projectXML = XElement.Load(project.ReadAllText());
+            var packageReference = projectXML.Descendants("PackageReference");
+
+            foreach (var r in References.Where(v => v.Project.FullName == project.FullName))
+            {
+                packageReference
+                   .Single(x => x.Attribute("Include").Value == r.Name)
+                   .Attribute("Version").Value = NewVersions[r.Name];
+            }
+
+            projectXML.Save(project.FullName);
+        }
     }
 }

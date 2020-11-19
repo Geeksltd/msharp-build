@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
+using Olive;
 
 namespace MSharp.Build
 {
     abstract class Builder
     {
+        internal static bool ShouldLog;
         static DateTime Start = DateTime.Now;
 
         Dictionary<string, Action> Steps = new Dictionary<string, Action>();
-        List<KeyValuePair<string, string>> LogMessages = new List<KeyValuePair<string, string>>();
+        static List<KeyValuePair<string, string>> LogMessages = new List<KeyValuePair<string, string>>();
 
         protected abstract void AddTasks();
 
@@ -28,7 +30,7 @@ namespace MSharp.Build
         protected void Log(string message, [CallerMemberName] string step = "")
             => LogMessages.Add(KeyValuePair.Create(step, message));
 
-        public void Build()
+        void ExecuteTasks()
         {
             AddTasks();
 
@@ -46,14 +48,34 @@ namespace MSharp.Build
                 catch (Exception ex)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine("Failed: " + ex.ToString());
+                    Console.WriteLine("Failed: " + ex);
                     Console.ResetColor();
                     throw ex;
                 }
             }
         }
 
-        public void PrintLog()
+        public int Execute()
+        {
+            try
+            {
+                ExecuteTasks();
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.ToLogString());
+                Console.ResetColor();
+                return -1;
+            }
+            finally
+            {
+                if (ShouldLog) PrintLog();
+            }
+        }
+
+        static void PrintLog()
         {
             foreach (var item in LogMessages.GroupBy(x => x.Key))
             {
