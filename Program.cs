@@ -22,6 +22,11 @@ namespace MSharp.Build
                 Console.WriteLine("TODO: Create a new project. See readme.md");
                 return 0;
             }
+            else if (args.Contains("/update-nuget"))
+            {
+                var buildTools = new UpdateNugetBuilder();
+                return Run(() => buildTools.Build(), buildTools.PrintLog);
+            }
             else
             {
                 var solution = new OliveSolution(publish: args.Contains("-publish"));
