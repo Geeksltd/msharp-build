@@ -27,3 +27,11 @@ You need to do this only once, to ensure your development environment is prepare
 ```js
 C:\>msharp-build /tools
 ```
+
+## Update nuget packages
+There are many Olive components which can have interdependencies. Unfortunately Visual Studio can sometimes not figure out the right way to update the packages when you want to update your project nugets. To solve this problem, you can run the following command:
+```js
+C:\>msharp-build /update-nuget
+```
+
+It will query the nuget.org server to find the latest version of all Olive and msharp nuget packages used in any of your projects (Model, UI, Domain, and Website). It will then directly replace the `csproj` files to use the latest versions. This will bypass the dependency checks. When you build the project, the packages will be restored automatically.
