@@ -1,8 +1,4 @@
-﻿//using MicroserviceExplorer.TCPIP;
-//using MicroserviceExplorer.Utils;
-//using NuGet;
-
-using Olive;
+﻿using Olive;
 using System;
 using System.Linq;
 using System.Xml.Linq;
@@ -27,7 +23,7 @@ namespace MSharp.Build.UpdateNuget
 
         public static (string name, string ver)[] GetNugetPackages(this SolutionProject project, string solutionFolder)
         {
-            var folder = solutionFolder.AsDirectory().GetSubDirectory(project.Path()/*, onlyWhenExists: false*/);
+            var folder = solutionFolder.AsDirectory().GetSubDirectory(project.Path());
             if (!folder.Exists()) return null;
             var csproj = folder.GetFiles("*.csproj").WithMax(x => x.LastWriteTimeUtc);
             if (csproj == null) return null;

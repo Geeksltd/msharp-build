@@ -1,6 +1,5 @@
 ﻿using MSharp.Build.Tools;
 using System;
-using System.IO;
 using System.Runtime.CompilerServices;
 
 namespace MSharp.Build
@@ -21,6 +20,7 @@ namespace MSharp.Build
         }
 
         void InstallReplaceInFiles() => Install<ReplaceInFile>();
+
         void InstallAcceleratePackageRestore() => Install<AcceleratePackageRestore>();
 
         void InstallNodeJs() => Install<NodeJs>();

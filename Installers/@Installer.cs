@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Olive;
+using System;
 using System.IO;
 using System.Linq;
-using Olive;
 
 namespace MSharp.Build.Installers
 {

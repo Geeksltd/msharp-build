@@ -1,10 +1,7 @@
 ﻿using MSharp.Build.UpdateNuget;
 using Olive;
 using System;
-using System.IO;
-using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Xml.Linq;
 
 namespace MSharp.Build
 {
@@ -20,6 +17,7 @@ namespace MSharp.Build
             Add(() => RefreshNugets());
             Add(() => UpdateNugets());
         }
+
         void PrepareSolution()
         {
             var root = Environment.CurrentDirectory.AsDirectory();
@@ -27,15 +25,9 @@ namespace MSharp.Build
             Solution = new MicroserviceItem { SolutionFolder = root.FullName, Builder = this };
         }
 
-        void RefreshNugets()
-        {
-            Solution.RefreshPackages();
-        }
+        void RefreshNugets() => Solution.RefreshPackages();
 
-        void UpdateNugets()
-        {
-            Solution.UpdatePackages();
-        }
+        void UpdateNugets() => Solution.UpdatePackages();
 
         void IUpdateNugetBuilder.Log(string message, [CallerMemberName] string step = "") => base.Log(message);
     }

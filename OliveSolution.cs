@@ -2,7 +2,6 @@
 using System;
 using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace MSharp.Build
 {
@@ -91,7 +90,7 @@ namespace MSharp.Build
             else DotnetBuild("Website", "publish -o ..\\publish".OnlyWhen(Publish));
         }
 
-        private void CopyDllsToWebsite()
+        void CopyDllsToWebsite()
         {
             var bin = "Website/bin".AsDirectory();
 
@@ -121,8 +120,8 @@ namespace MSharp.Build
 
         FileInfo GetPackages(string folder) => Folder(folder).AsDirectory().GetFile("packages.config");
 
-
         string GetProjectSolution() => Root.GetFiles("*.sln")[0].FullName;
+
         void DotnetBuild(string folder, string command = null)
         {
             if (IsDotNetCore) DotnetCoreBuild(folder, command);

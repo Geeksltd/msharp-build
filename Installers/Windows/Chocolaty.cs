@@ -1,8 +1,5 @@
 ﻿using Olive;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace MSharp.Build.Installers.Windows
 {
