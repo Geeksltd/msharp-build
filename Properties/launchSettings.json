@@ -3,7 +3,7 @@
     "MSharp.Build": {
       "commandName": "Project",
       "commandLineArgs": "/update-nuget",
-      "workingDirectory": "E:\\Geeks.MS\\People"
+      "workingDirectory": "E:\\Geeks.MS\\Hub"
     }
   }
 }

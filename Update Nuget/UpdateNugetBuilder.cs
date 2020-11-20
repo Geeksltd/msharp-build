@@ -97,7 +97,7 @@ namespace MSharp.Build
                 Console.Write(" ");
                 ConsoleWrite(old.PadRight(10), ConsoleColor.Red);
                 Console.Write(" --> ");
-                ConsoleWrite(old, ConsoleColor.Green);
+                ConsoleWrite(newVersion, ConsoleColor.Green);
                 Console.WriteLine();
             }
 
