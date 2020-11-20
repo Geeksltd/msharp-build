@@ -29,6 +29,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.Build" Version="15.8.166" />
+    <PackageReference Include="NuGet.Core" Version="2.14.0" />
     <PackageReference Include="Olive" Version="2.1.199" />
   </ItemGroup>
 </Project>

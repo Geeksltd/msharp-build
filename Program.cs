@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using MSharp.Build.Project;
 using Olive;
 
 namespace MSharp.Build
@@ -16,8 +17,8 @@ namespace MSharp.Build
             }
             else if (args.Contains("/new"))
             {
-                Console.WriteLine("TODO: Create a new project. See readme.md");
-                return 0;
+                var inputArgs = new InputParameterResolver(args).Resolve();
+                return new NewProject(inputArgs).Execute();
             }
             else if (args.Contains("/update-nuget"))
             {
