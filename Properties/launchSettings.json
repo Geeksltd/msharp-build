@@ -2,7 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "workingDirectory": "E:\\Geeks.MS\\FS.Recruit"
+      "commandLineArgs": "/update-nuget",
+      "workingDirectory": "E:\\Geeks.MS\\People"
     }
   }
 }

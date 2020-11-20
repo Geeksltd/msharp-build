@@ -60,15 +60,27 @@ namespace MSharp.Build
             }
 
             NewVersions = References.Select(v => v.Name).Distinct()
-                .ToDictionary(x => x, findLatestVersion);
+                .AsParallel()
+                .Select(v => new { target = v, ver = findLatestVersion(v) })
+                .ToArray()
+                .ToDictionary(x => x.target, x => x.ver);
         }
 
-        void UpdateProjects() => ProjectFiles.Do(Update);
+        void UpdateProjects()
+        {
+            ProjectFiles.Do(Update);
+            Console.WriteLine();
+        }
 
         void Update(FileInfo project)
         {
-            var projectXML = XElement.Load(project.ReadAllText());
-            var packageReference = projectXML.Descendants("PackageReference");
+            var xml = project.ReadAllText().To<XDocument>();
+
+            var packageReference = xml.Root.Descendants("PackageReference");
+
+            Console.WriteLine();
+            ConsoleWrite(project.Name.PadRight(15), ConsoleColor.White);
+            Console.WriteLine();
 
             foreach (var r in References.Where(v => v.Project.FullName == project.FullName))
             {
@@ -77,14 +89,27 @@ namespace MSharp.Build
                 var newVersion = NewVersions[r.Name];
                 var old = node.Attribute("Version").Value;
 
-                if (newVersion != old)
-                {
-                    node.Attribute("Version").Value = newVersion;
-                    Console.WriteLine($"{project.Name}:  {r.Name} ({old}) --> ({newVersion})");
-                }
+                if (newVersion == old) continue;
+
+                node.Attribute("Version").Value = newVersion;
+
+                ConsoleWrite(r.Name.PadRight(40), ConsoleColor.Cyan);
+                Console.Write(" ");
+                ConsoleWrite(old.PadRight(10), ConsoleColor.Red);
+                Console.Write(" --> ");
+                ConsoleWrite(old, ConsoleColor.Green);
+                Console.WriteLine();
             }
 
-            projectXML.Save(project.FullName);
+            xml.Save(project.FullName);
         }
+
+        static void ConsoleWrite(string text, ConsoleColor color)
+        {
+            Console.ForegroundColor = color;
+            Console.Write(text);
+            Console.ResetColor();
+        }
+
     }
 }
