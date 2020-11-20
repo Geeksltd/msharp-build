@@ -1,7 +1,7 @@
 ﻿using System;
-using System.IO;
 using System.IO.Compression;
 using System.Net;
+using Olive;
 
 namespace MSharp.Build.Project
 {
@@ -11,26 +11,21 @@ namespace MSharp.Build.Project
 
         public void DownloadTemplate()
         {
-            var downloadedFilesExtractPath = Args["DownloadedFilesExtractPath"];
-            Directory.CreateDirectory(downloadedFilesExtractPath);
+            if (!DownloadAsync(Args.TemplateWebAddress, ZipFileName)) return;
 
-            if (!DownloadAsync(Args["TemplateWebAddress"], downloadedFilesExtractPath, ZipFileName)) return;
-
-            var zipFilePath = Path.Combine(downloadedFilesExtractPath, ZipFileName);
-            ZipFile.ExtractToDirectory(zipFilePath, downloadedFilesExtractPath);
-            File.Delete(zipFilePath);
+            var zip = Args.TempTemplate.GetFile(ZipFileName);
+            ZipFile.ExtractToDirectory(zip.FullName, Args.TempTemplate.FullName);
+            zip.Delete();
         }
 
-        bool DownloadAsync(string sourceWebAddress, string destPath, string fileName)
+        bool DownloadAsync(string sourceWebAddress, string fileName)
         {
-            var destFullPath = Path.Combine(destPath, fileName);
+            var destFullPath = Args.TempTemplate.GetFile(fileName);
             try
             {
                 Log("Downloading latest project template ...");
-
                 var client = new WebClient();
-                client.DownloadFile(sourceWebAddress, destFullPath);
-
+                client.DownloadFile(sourceWebAddress, destFullPath.FullName);
                 Log("Done.");
                 return true;
             }

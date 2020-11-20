@@ -2,8 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/update-nuget",
-      "workingDirectory": "E:\\Geeks.MS\\Hub"
+      "commandLineArgs": "/new /n:Paymon2",
+      "workingDirectory": "C:\\Temp\\Blah"
     }
   }
 }

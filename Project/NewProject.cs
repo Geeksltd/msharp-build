@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Olive;
 
 namespace MSharp.Build.Project
 {
     partial class NewProject : Builder
     {
-        readonly Dictionary<string, string> Args;
-        public NewProject(Dictionary<string, string> inputArgs) => Args = inputArgs;
+        readonly NewProjectArgs Args;
+        public NewProject(NewProjectArgs args) => Args = args;
 
         protected override void AddTasks()
         {
@@ -15,6 +17,16 @@ namespace MSharp.Build.Project
             Add(() => DownloadTemplate());
             Add(() => ReplaceInNewProjectFiles());
             Add(() => CopyFiles());
+            Add(() => Compile());
+        }
+
+        void Compile()
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = Args.Destination.GetFile("Build.bat").FullName,
+                WorkingDirectory = Args.Destination.FullName
+            });
         }
     }
 }

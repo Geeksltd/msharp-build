@@ -1,29 +1,19 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Olive;
 
 namespace MSharp.Build.Project
 {
     partial class NewProject
     {
-        const string TemplateFolderName = "Template";
-
         public void CopyFiles()
         {
             Log("Copying the files ...");
 
-            var projectFolder = Path.Combine(Args["DestinationDirectory"], Args["ProjectName"]);
-            Directory.CreateDirectory(projectFolder);
+            var source = Args.TempTemplate.GetDirectories("Template", SearchOption.AllDirectories).WithMin(v => v.FullName.Length);
 
-            var extractPath = Args["DownloadedFilesExtractPath"];
-            var template = Directory.GetDirectories(extractPath).FirstOrDefault();
-            if (template.IsEmpty()) return;
-            var templateDirectory = Directory.GetDirectories(template).FirstOrDefault();
-            var tempDirObj = new DirectoryInfo(templateDirectory);
-            if (tempDirObj.Name != TemplateFolderName) return;
-            CopyFolderContents(templateDirectory, projectFolder);
-            extractPath.AsDirectory().Delete(recursive: true);
+            CopyFolderContents(source.FullName, Args.Destination.FullName);
+            Args.TempTemplate.Delete(recursive: true);
         }
 
         bool CopyFolderContents(string sourcePath, string destinationPath)

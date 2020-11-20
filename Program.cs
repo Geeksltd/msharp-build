@@ -17,8 +17,7 @@ namespace MSharp.Build
             }
             else if (args.Contains("/new"))
             {
-                var inputArgs = new InputParameterResolver(args).Resolve();
-                return new NewProject(inputArgs).Execute();
+                return new NewProject(new NewProjectArgs(args)).Execute();
             }
             else if (args.Contains("/update-nuget"))
             {
