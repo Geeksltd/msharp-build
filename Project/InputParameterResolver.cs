@@ -43,11 +43,7 @@ namespace MSharp.Build.Project
                 inputArgs["TemplateWebAddress"] = "https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip";
 
             inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), "GeeksTemplate");
-            // inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
-
-            inputArgs["DbType"] = "SqlServer";
-            inputArgs["ConnectionString"] =
-                $"Database={inputArgs["ProjectName"]}.Temp; Server=.\\SQLExpress; Integrated Security=SSPI; MultipleActiveResultSets=True;";
+            
             inputArgs["DestinationDirectory"] = Path.GetDirectoryName(Environment.CommandLine.Split(' ')[0]);
         }
     }

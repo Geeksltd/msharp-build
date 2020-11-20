@@ -24,7 +24,7 @@ namespace MSharp.Build.Project
             var tempDirObj = new DirectoryInfo(templateDirectory);
             if (tempDirObj.Name != TemplateFolderName) return;
             CopyFolderContents(templateDirectory, projectFolder);
-            DeleteDirectory(extractPath);
+            extractPath.AsDirectory().Delete(recursive: true);
         }
 
         bool CopyFolderContents(string sourcePath, string destinationPath)
@@ -61,20 +61,5 @@ namespace MSharp.Build.Project
             }
         }
 
-        public void DeleteDirectory(string path)
-        {
-            if (!Directory.Exists(path)) return;
-
-            // Delete all files from the Directory
-            foreach (var file in Directory.GetFiles(path))
-                File.Delete(file);
-
-            // Delete all child Directories
-            foreach (var directory in Directory.GetDirectories(path))
-                DeleteDirectory(directory);
-
-            // Delete a Directory
-            Directory.Delete(path);
-        }
     }
 }
