@@ -43,7 +43,7 @@ namespace MSharp.Build.Project
                 inputArgs["TemplateWebAddress"] = "https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip";
 
             inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), "GeeksTemplate");
-            
+
             inputArgs["DestinationDirectory"] = Path.GetDirectoryName(Environment.CommandLine.Split(' ')[0]);
         }
     }

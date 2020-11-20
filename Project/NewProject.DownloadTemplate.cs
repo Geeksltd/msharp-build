@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Net;
-using System.Net.Http;
 
 namespace MSharp.Build.Project
 {
-    class DownloadTemplate : ProjectPart
+    partial class NewProject
     {
         const string ZipFileName = "master.zip";
 
-        public override void Install(Dictionary<string, string> inputArgs)
+        public void DownloadTemplate()
         {
-            var downloadedFilesExtractPath = inputArgs["DownloadedFilesExtractPath"];
+            var downloadedFilesExtractPath = Args["DownloadedFilesExtractPath"];
             Directory.CreateDirectory(downloadedFilesExtractPath);
 
-            if (!DownloadAsync(inputArgs["TemplateWebAddress"], downloadedFilesExtractPath, ZipFileName)) return;
+            if (!DownloadAsync(Args["TemplateWebAddress"], downloadedFilesExtractPath, ZipFileName)) return;
 
             var zipFilePath = Path.Combine(downloadedFilesExtractPath, ZipFileName);
             ZipFile.ExtractToDirectory(zipFilePath, downloadedFilesExtractPath);
@@ -28,25 +26,17 @@ namespace MSharp.Build.Project
             var destFullPath = Path.Combine(destPath, fileName);
             try
             {
-                Logs.Add("Downloading latest project template ...");
+                Log("Downloading latest project template ...");
 
                 var client = new WebClient();
                 client.DownloadFile(sourceWebAddress, destFullPath);
 
-                Logs.Add("Done.");
+                Log("Done.");
                 return true;
-            }
-            catch (HttpRequestException ex)
-            {
-                Logs.Add($"Error in downloading template file: {ex.Message}");
-            }
-            catch (OperationCanceledException)
-            {
-                Logs.Add("Project template download canceled.");
             }
             catch (Exception ex)
             {
-                Logs.Add("Error in downloading template file");
+                Log("Error in downloading template file: " + ex.Message);
             }
 
             return false;

@@ -1,23 +1,22 @@
-﻿using Olive;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
 using System.Linq;
+using Olive;
 
 namespace MSharp.Build.Project
 {
-    class CopyFiles : ProjectPart
+    partial class NewProject
     {
         const string TemplateFolderName = "Template";
 
-        public override void Install(Dictionary<string, string> inputArgs)
+        public void CopyFiles()
         {
-            Logs.Add("Copying the files ...");
+            Log("Copying the files ...");
 
-            var projectFolder = Path.Combine(inputArgs["DestinationDirectory"], inputArgs["ProjectName"]);
+            var projectFolder = Path.Combine(Args["DestinationDirectory"], Args["ProjectName"]);
             Directory.CreateDirectory(projectFolder);
 
-            var extractPath = inputArgs["DownloadedFilesExtractPath"];
+            var extractPath = Args["DownloadedFilesExtractPath"];
             var template = Directory.GetDirectories(extractPath).FirstOrDefault();
             if (template.IsEmpty()) return;
             var templateDirectory = Directory.GetDirectories(template).FirstOrDefault();
@@ -60,6 +59,5 @@ namespace MSharp.Build.Project
                 return false;
             }
         }
-
     }
 }
