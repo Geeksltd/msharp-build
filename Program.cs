@@ -1,7 +1,7 @@
-﻿using System;
-using System.Linq;
-using MSharp.Build.Project;
+﻿using MSharp.Build.Project;
 using Olive;
+using System;
+using System.Linq;
 
 namespace MSharp.Build
 {

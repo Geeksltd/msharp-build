@@ -1,14 +1,14 @@
-﻿using System;
+﻿using Olive;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Olive;
 
 namespace MSharp.Build.Project
 {
     class CopyFiles : ProjectPart
     {
-        private const string TemplateFolderName = "Template";
+        const string TemplateFolderName = "Template";
 
         public override void Install(Dictionary<string, string> inputArgs)
         {
@@ -27,7 +27,7 @@ namespace MSharp.Build.Project
             DeleteDirectory(extractPath);
         }
 
-        public bool CopyFolderContents(string sourcePath, string destinationPath)
+        bool CopyFolderContents(string sourcePath, string destinationPath)
         {
             sourcePath = sourcePath.EndsWith(@"\") ? sourcePath : sourcePath + @"\";
             destinationPath = destinationPath.EndsWith(@"\") ? destinationPath : destinationPath + @"\";

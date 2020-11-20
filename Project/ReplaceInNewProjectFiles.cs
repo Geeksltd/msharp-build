@@ -1,16 +1,16 @@
-﻿using System;
+﻿using Olive;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml;
 using System.Xml.Serialization;
-using Olive;
 
 namespace MSharp.Build.Project
 {
     class ReplaceInNewProjectFiles : ProjectPart
     {
-        private const string ProjectNameTemplateKey = "MY.PROJECT.NAME";
+        const string ProjectNameTemplateKey = "MY.PROJECT.NAME";
 
         public override void Install(Dictionary<string, string> inputArgs)
         {
@@ -19,7 +19,7 @@ namespace MSharp.Build.Project
             SetRandomPortNumber(inputArgs["DownloadedFilesExtractPath"]);
         }
 
-        private void Rename(string destPath, string templateValue, string templateKey)
+        void Rename(string destPath, string templateValue, string templateKey)
         {
             Logs.Add("Renaming file contents ...");
             foreach (var file in Directory.GetFiles(destPath, "*.*", SearchOption.AllDirectories))
@@ -39,7 +39,7 @@ namespace MSharp.Build.Project
             }
         }
 
-        private void ApplyDbType(string destPath, DBType selectedDbType, string constr)
+        void ApplyDbType(string destPath, DBType selectedDbType, string constr)
         {
             Logs.Add("Applying database ...");
             ChangeConnectionString(destPath, constr);
@@ -52,7 +52,7 @@ namespace MSharp.Build.Project
             }
         }
 
-        private void ChangeConnectionString(string destPath, string constr)
+        void ChangeConnectionString(string destPath, string constr)
         {
             var jsonkey = @"""AppDatabase""";
             var appsettings = Directory.GetFiles(destPath, "appsettings.json", SearchOption.AllDirectories)
@@ -71,12 +71,12 @@ namespace MSharp.Build.Project
             File.WriteAllLines(appsettings, allLines);
         }
 
-        private void FixSqlDialect(string destPath, DBType selectedDbType)
+        void FixSqlDialect(string destPath, DBType selectedDbType)
         {
             var file = Directory.GetFiles(destPath, "Project.cs", SearchOption.AllDirectories).FirstOrDefault(x => x.Contains("M#\\Model\\"));
             if (file.IsEmpty()) throw new Exception("M#\\Model\\Project.cs was not found!");
 
-            //var file = Path.Combine(destPath, "Model", "Project.cs");
+            // var file = Path.Combine(destPath, "Model", "Project.cs");
 
             var text = File.ReadAllText(file);
             var index = text.IndexOf("\n", text.IndexOf("Name(\"", StringComparison.Ordinal), StringComparison.Ordinal) + 1;
@@ -85,7 +85,7 @@ namespace MSharp.Build.Project
             File.WriteAllText(file, text);
         }
 
-        private void FixStartUp(string destPath, DBType selectedDbType)
+        void FixStartUp(string destPath, DBType selectedDbType)
         {
             var file = Directory.GetFiles(destPath, "StartUp.cs", SearchOption.AllDirectories).SingleOrDefault();
             if (file.IsEmpty()) throw new Exception("StartUp.cs was not found!");
@@ -94,7 +94,7 @@ namespace MSharp.Build.Project
             File.WriteAllText(file, text);
         }
 
-        private void FixDomainCsProjectReference(string destPath, DBType selectedDbType)
+        void FixDomainCsProjectReference(string destPath, DBType selectedDbType)
         {
             var domainFile = Directory.GetFiles(destPath, "Domain.csproj", SearchOption.AllDirectories).FirstOrDefault();
             if (domainFile.IsEmpty()) return;
@@ -113,7 +113,7 @@ namespace MSharp.Build.Project
             File.WriteAllText(domainFile, newProjStruct);
         }
 
-        private string SerializeToString<T>(T value)
+        string SerializeToString<T>(T value)
         {
             var emptyNamepsaces = new XmlSerializerNamespaces(new[] { XmlQualifiedName.Empty });
             var serializer = new XmlSerializer(value.GetType());
@@ -131,7 +131,7 @@ namespace MSharp.Build.Project
             }
         }
 
-        private void SetRandomPortNumber(string destPath)
+        void SetRandomPortNumber(string destPath)
         {
             Logs.Add("Changing port number ...");
             var file = Directory.GetFiles(destPath, "launchSettings.json", SearchOption.AllDirectories).SingleOrDefault();

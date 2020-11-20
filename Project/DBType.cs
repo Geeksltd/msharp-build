@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using NuGet;
+using System;
 using System.Linq;
-using System.Text;
-using NuGet;
 
 namespace MSharp.Build.Project
 {
@@ -12,13 +10,7 @@ namespace MSharp.Build.Project
 
         public string OliveProvider => "Olive.Entities.Data." + Provider;
 
-        public string OliveVersion
-        {
-            get
-            {
-                return GetPackageLatestVersion();
-            }
-        }
+        public string OliveVersion => GetPackageLatestVersion();
 
         public override string ToString() => Name;
 

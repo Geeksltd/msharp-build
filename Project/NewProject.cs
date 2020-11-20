@@ -6,12 +6,8 @@ namespace MSharp.Build.Project
 {
     class NewProject : Builder
     {
-        private readonly Dictionary<string, string> _inputArgs;
-
-        public NewProject(Dictionary<string, string> inputArgs)
-        {
-            _inputArgs = inputArgs;
-        }
+        readonly Dictionary<string, string> _inputArgs;
+        public NewProject(Dictionary<string, string> inputArgs) => _inputArgs = inputArgs;
 
         protected override void AddTasks()
         {

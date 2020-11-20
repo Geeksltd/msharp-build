@@ -6,12 +6,8 @@ namespace MSharp.Build.Project
 {
     class InputParameterResolver
     {
-        private readonly string[] _args;
-
-        public InputParameterResolver(string[] args)
-        {
-            _args = args;
-        }
+        readonly string[] _args;
+        public InputParameterResolver(string[] args) => _args = args;
 
         public Dictionary<string, string> Resolve()
         {
@@ -22,7 +18,7 @@ namespace MSharp.Build.Project
             return result;
         }
 
-        private Dictionary<string, string> GetInputArgs()
+        Dictionary<string, string> GetInputArgs()
         {
             var inputArgs = new Dictionary<string, string>();
             foreach (var arg in _args)
@@ -41,13 +37,13 @@ namespace MSharp.Build.Project
             return inputArgs;
         }
 
-        private void SetDefaults(Dictionary<string, string> inputArgs)
+        void SetDefaults(Dictionary<string, string> inputArgs)
         {
             if (!inputArgs.ContainsKey("TemplateWebAddress"))
                 inputArgs["TemplateWebAddress"] = "https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip";
 
             inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), "GeeksTemplate");
-            //inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
+            // inputArgs["DownloadedFilesExtractPath"] = Path.Combine(Path.GetTempPath(), Guid.NewGuid().ToString("N"));
 
             inputArgs["DbType"] = "SqlServer";
             inputArgs["ConnectionString"] =
