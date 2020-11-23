@@ -1,11 +1,14 @@
 ﻿# M# Build Tool
 
 To install this tool, in `cmd` run the following:
-
 ```
 C:\> dotnet tool install --global msharp-build
 ```
 
+Or if you already have it, run:
+```
+C:\> dotnet tool update --global msharp-build
+```
 ## Create a new M# project
 To create a new M# project, run the following command:
 ```
