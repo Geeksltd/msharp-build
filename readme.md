@@ -18,8 +18,8 @@ At this point, the template repository will be downloaded [from here](https://gi
 
 ### Optional parameters:
 
-- `/t:myUrl` Allows you to provide your own project template repository url (which must be publically accessible). If not set, it [defaults to this](https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip).
-- `/o:myPath`  specifies the output folder in which to create the new project. If not set, it defaults to the *current directory*. Please note that a directory with the name of the project will be created inside the output directory.
+- `/t:myUrl` Allows you to provide your own project template repository url (which must be publically accessible) instead of [the default](https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip).
+- `/o:myPath` Specifies the output folder in which to create the new project. If not set, it defaults to the *current directory*. Please note that a directory with the name of the project will be created inside the output directory.
 
 
 ## Build an existing project
