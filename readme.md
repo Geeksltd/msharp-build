@@ -12,7 +12,7 @@ C:\> dotnet tool update --global msharp-build
 ## Create a new M# project
 To create a new M# project, run the following command:
 ```
-C:\Projects\> msharp-build /new /n:"ProjectName"  [/o:c:\....]
+C:\Projects\> msharp-build /new /n:"ProjectName"
 ```
 At this point, the template repository will be downloaded [from here](https://github.com/Geeksltd/Olive.MvcTemplate), and the placeholders will be replaced with the name provided in the `/n:` parameter. 
 
