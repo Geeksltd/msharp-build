@@ -22,6 +22,19 @@ At this point, the template repository will be downloaded [from here](https://gi
 - `/o:myPath` Specifies the output folder in which to create the new project. If not set, it defaults to the *current directory*. Please note that a directory with the name of the project will be created inside the output directory.
 
 
+## Create a new Microservice M# project:
+```
+C:\Projects\> msharp-build /new-ms /n:"ProjectName"
+```
+This will use the template [from here](https://github.com/Geeksltd/Olive.Mvc.Microservice.Template/archive/master.zip).
+
+This command should be executed from inside the microservice solution folder, where it can find Hub as a sibling service directory.
+
+It will also do the following:
+- Get a new port number for the microservice.
+- ... TODO
+
+
 ## Build an existing project
 To build an existing M# project, run the following command:
 ```
