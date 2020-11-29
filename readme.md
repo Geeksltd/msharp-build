@@ -18,21 +18,24 @@ At this point, the template repository will be downloaded [from here](https://gi
 
 ### Optional parameters:
 
-- `/t:myUrl` Allows you to provide your own project template repository url (which must be publically accessible) instead of [the default](https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip).
+- `/t:myUrl` Allows you to provide your own project template repository url (which must be publically accessible) instead of [the default](https://github.com/Geeksltd/Olive.MvcTemplate/archive/master.zip). Note that `myUrl` should end with `/archive/master.zip` to be downloadable.
 - `/o:myPath` Specifies the output folder in which to create the new project. If not set, it defaults to the *current directory*. Please note that a directory with the name of the project will be created inside the output directory.
+- `/p:portNumber` Allows you to set a new port number for the project. Without this parameter, a random port number is used. 
 
 
 ## Create a new Microservice M# project:
 ```
 C:\Projects\> msharp-build /new-ms /n:"ProjectName"
 ```
-This will use the template [from here](https://github.com/Geeksltd/Olive.Mvc.Microservice.Template/archive/master.zip).
+This will use the template [from here](https://github.com/Geeksltd/Olive.Mvc.Microservice.Template). 
 
-This command should be executed from inside the microservice solution folder, where it can find Hub as a sibling service directory.
+This command should be executed from inside the microservice solution folder, where it can find Hub as a sibling service directory. Placeholders in the template will be replaced with the parameters or the hub's settings.
 
-It will also do the following:
-- Get a new port number for the microservice.
-- ... TODO
+### Optional parameters:
+
+- `/t:myUrl` like the above.
+- `/o:myPath` like the above.
+- `/p:portNumber` Allows you to set a new port number for the microservice. Without this parameter, tries to find the next port number from the hub's services. If both of the parameter and hub's services are not found, random port number is used.
 
 
 ## Build an existing project

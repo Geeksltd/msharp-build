@@ -10,8 +10,6 @@ namespace MSharp.Build
     abstract class Builder
     {
         internal static bool ShouldLog;
-        static DateTime Start = DateTime.Now;
-
         Dictionary<string, Action> Steps = new Dictionary<string, Action>();
         static List<KeyValuePair<string, string>> LogMessages = new List<KeyValuePair<string, string>>();
 
@@ -39,10 +37,11 @@ namespace MSharp.Build
                 try
                 {
                     Console.Write("Running " + step.Key + "...");
+                    var start = DateTime.Now;
                     step.Value();
 
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Done. " + Math.Round(DateTime.Now.Subtract(Start).TotalSeconds, 1) + "s");
+                    Console.WriteLine("Done. " + Math.Round(DateTime.Now.Subtract(start).TotalSeconds, 1) + "s");
                     Console.ResetColor();
                 }
                 catch (Exception ex)
@@ -73,6 +72,14 @@ namespace MSharp.Build
             {
                 if (ShouldLog) PrintLog();
             }
+        }
+
+        protected void ShowWarning(string message)
+        {
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Log(message);
+            Console.WriteLine("    Warning: " + message);
+            Console.ResetColor();
         }
 
         static void PrintLog()

@@ -1,7 +1,7 @@
-﻿using System;
+﻿using Olive;
+using System;
 using System.IO.Compression;
 using System.Net;
-using Olive;
 
 namespace MSharp.Build.Project
 {
@@ -9,16 +9,16 @@ namespace MSharp.Build.Project
     {
         const string ZipFileName = "master.zip";
 
-        public void DownloadTemplate()
+        void DownloadTemplate()
         {
-            if (!DownloadAsync(Args.TemplateWebAddress, ZipFileName)) return;
+            if (!Download(Args.TemplateWebAddress, ZipFileName)) return;
 
             var zip = Args.TempTemplate.GetFile(ZipFileName);
             ZipFile.ExtractToDirectory(zip.FullName, Args.TempTemplate.FullName);
             zip.Delete();
         }
 
-        bool DownloadAsync(string sourceWebAddress, string fileName)
+        bool Download(string sourceWebAddress, string fileName)
         {
             var destFullPath = Args.TempTemplate.GetFile(fileName);
             try

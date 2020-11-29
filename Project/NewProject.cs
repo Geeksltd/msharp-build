@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Olive;
+using System;
 using System.Diagnostics;
-using Olive;
 
 namespace MSharp.Build.Project
 {

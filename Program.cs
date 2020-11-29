@@ -15,7 +15,7 @@ namespace MSharp.Build
             {
                 return new BuildTools().Execute();
             }
-            else if (args.Contains("/new"))
+            else if (args.Any(a => a.StartsWith("/new")))
             {
                 return new NewProject(new NewProjectArgs(args)).Execute();
             }

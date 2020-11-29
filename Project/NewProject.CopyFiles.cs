@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Olive;
+using System;
 using System.IO;
-using Olive;
 
 namespace MSharp.Build.Project
 {
     partial class NewProject
     {
-        public void CopyFiles()
+        void CopyFiles()
         {
             Log("Copying the files ...");
 
