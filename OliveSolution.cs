@@ -209,9 +209,12 @@ namespace MSharp.Build
         {
             if (!IsDotNetCore) return;
 
-            var log = Folder("Website\\wwwroot\\Styles\\Build\\SassCompiler.exe")
-                 .AsFile()
-                 .Execute("\"" + Folder("Website\\CompilerConfig.json") + "\"");
+            var exe = Folder("Website\\wwwroot\\Styles\\Build\\SassCompiler.exe").AsFile();
+
+            var log = "SKIPPED! " + exe.FullName + " file does not exist";
+
+            if (exe.Exists())
+                log = exe.Execute("\"" + Folder("Website\\CompilerConfig.json") + "\"");
 
             Log(log);
         }
