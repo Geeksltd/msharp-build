@@ -13,7 +13,7 @@ namespace MSharp.Build.Project
         void ReplaceInNewProjectFiles()
         {
             var replacements = GetReplacements();
-            Rename(replacements);
+            ReplaceFilesContents(replacements);
 
             if (Args.ProjectType == ProjectType.Microservice)
                 AddMicroserviceToHubServices();
@@ -50,11 +50,13 @@ namespace MSharp.Build.Project
             return new Dictionary<string, string>();
         }
 
-        void Rename(Dictionary<string, string> dic)
+        void ReplaceFilesContents(Dictionary<string, string> dic)
         {
             Log("Renaming file contents ...");
             foreach (var file in Args.TempTemplate.GetFiles(includeSubDirectories: true))
             {
+                if (Path.GetExtension(file).EndsWith("exe", StringComparison.OrdinalIgnoreCase)) continue;
+
                 var content = File.ReadAllText(file);
                 foreach (var d in dic)
                 {
