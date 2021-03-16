@@ -50,7 +50,6 @@ namespace MSharp.Build
             Add(() => BuildMSharpUI());
             Add(() => MSharpGenerateUI());
             Add(() => YarnInstall());
-            Add(() => InstallBowerComponents());
             Add(() => TypescriptCompile());
             Add(() => SassCompile());
             Add(() => BuildAppWebsite());
@@ -181,19 +180,6 @@ namespace MSharp.Build
         void YarnInstall()
         {
             var log = Commands.Yarn.Execute("install",
-                configuration: x => x.StartInfo.WorkingDirectory = Folder("Website"));
-            Log(log);
-        }
-
-        void InstallBowerComponents()
-        {
-            if (!Folder("Website\\bower.json").AsFile().Exists)
-            {
-                Console.Write("Skipped - bower.json is not found.");
-                return;
-            }
-
-            var log = Commands.Bower.Execute("install",
                 configuration: x => x.StartInfo.WorkingDirectory = Folder("Website"));
             Log(log);
         }

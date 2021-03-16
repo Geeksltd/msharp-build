@@ -14,7 +14,6 @@ namespace MSharp.Build
         public static FileInfo NodeJs => FindExe("npm");
         public static FileInfo TypeScript => FindExe("tsc");
         public static FileInfo WebPack => FindExe("webpack");
-        public static FileInfo Bower => FindExe("bower");
         public static FileInfo DotNet => FindExe("dotnet");
         public static FileInfo APT => FindExe("apt");
         public static FileInfo APT_GET => FindExe("apt-get");
