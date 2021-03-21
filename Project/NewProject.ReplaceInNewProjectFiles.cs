@@ -91,11 +91,16 @@ namespace MSharp.Build.Project
                 return GetRandomPortNumber();
 
             var services = XElement.Load(servicePath);
-            var nextPortNumber = (from srv in services.FirstNode.ElementsAfterSelf()
-                                  where srv.Attribute("url") != null && srv.Attribute("url").Value.Replace("://", "").Contains(":")
-                                  let y = srv.Attribute("url")?.Value.Replace("://", "").RemoveBefore(":", caseSensitive: true)
-                                  where int.TryParse(y, out _)
-                                  select Convert.ToInt32(y)).Max() + 1;
+
+            var nextPortNumber = services.Elements()
+                .Select(v => v.GetValue<string>("@url"))
+                .Trim()
+                .Where(x => x.Contains("//"))
+                .Select(v => v.RemoveBeforeAndIncluding("//"))
+                .Where(v => v.Contains(":"))
+                .Select(v => v.Split(':').Last().To<int>())
+                .Max() + 1;
+
             return nextPortNumber.ToString();
         }
 
@@ -135,7 +140,7 @@ namespace MSharp.Build.Project
 
         string GetDomain()
         {
-            var hubAddress = Path.Combine(Args.Destination.FullName, "hub");
+            var hubAddress = Path.Combine(Args.Destination.Parent.FullName, "hub");
 
             try
             {

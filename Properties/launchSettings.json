@@ -2,8 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/new /n:Paymon2",
-      "workingDirectory": "C:\\Temp\\Blah"
+      "commandLineArgs": "/new-ms /n:\"WorkWatch\"",
+      "workingDirectory": "E:\\Geeks.MS"
     }
   }
 }

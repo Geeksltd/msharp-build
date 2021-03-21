@@ -1,7 +1,8 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <PackAsTool>true</PackAsTool>
     <ToolCommandName>msharp-build</ToolCommandName>
     <Company>Geeks Ltd</Company>
@@ -14,7 +15,7 @@
     <PackageReleaseNotes>Minor fixes</PackageReleaseNotes>
     <PackageRequireLicenseAcceptance>False</PackageRequireLicenseAcceptance>
     <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
-    <Version>3.1.118.0</Version>
+    <Version>3.1.118</Version>
     <RepositoryUrl>https://github.com/Geeksltd/msharp-build</RepositoryUrl>
     <Copyright>Geeks Ltd 2021, All rights reserved.</Copyright>
   </PropertyGroup>
@@ -24,7 +25,6 @@
     <None Remove="CICD\**" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.Build" Version="16.9.0" />
     <PackageReference Include="Olive" Version="2.1.239" />
   </ItemGroup>
 </Project>
