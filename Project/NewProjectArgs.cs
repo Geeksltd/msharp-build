@@ -17,6 +17,13 @@ namespace MSharp.Build.Project
         {
             foreach (var arg in args)
             {
+                if (arg == "/new-fs")
+                {
+                    TemplateWebAddress = "https://github.com/Geeksltd/FitSuite.Template/archive/master.zip";
+                    ProjectType = ProjectType.Microservice;
+                    continue;
+                }
+
                 if (arg == "/new-ms")
                 {
                     TemplateWebAddress = "https://github.com/Geeksltd/Olive.Mvc.Microservice.Template/archive/master.zip";

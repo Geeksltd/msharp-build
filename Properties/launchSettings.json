@@ -2,8 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/new-ms /n:\"WorkWatch\"",
-      "workingDirectory": "E:\\Geeks.MS"
+      "commandLineArgs": "/new-fs /n:\"HoustonCox\"",
+      "workingDirectory": "d:\\temp\\HC"
     }
   }
 }
