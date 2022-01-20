@@ -45,23 +45,9 @@ namespace MSharp.Build
 
         void FindLatestVersions()
         {
-            string findLatestVersion(string package)
-            {
-                try
-                {
-                    return $"https://www.nuget.org/packages/{package}/".AsUri()
-                     .Download().GetAwaiter().GetResult().ToLower()
-                         .Substring($"<meta property=\"og:title\" content=\"{package.ToLower()} ", "\"", inclusive: false);
-                }
-                catch (Exception ex) when (ex.Message.Contains("404") || ex.Message.Contains("429"))
-                {
-                    throw new Exception("Failed to find latest nuget version for " + package);
-                }
-            }
-
             NewVersions = References.Select(v => v.Name).Distinct()
                 .AsParallel()
-                .Select(v => new { target = v, ver = findLatestVersion(v) })
+                .Select(v => new { target = v, ver = NugetReference.GetLatestVersion(v) })
                 .ToArray()
                 .ToDictionary(x => x.target, x => x.ver);
         }

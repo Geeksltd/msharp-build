@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
+using Olive;
 
 namespace MSharp.Build.UpdateNuget
 {
@@ -13,6 +15,20 @@ namespace MSharp.Build.UpdateNuget
             Name = package;
             Version = version;
             Project = project;
+        }
+
+        public static string GetLatestVersion(string package)
+        {
+            try
+            {
+                return $"https://www.nuget.org/packages/{package}/".AsUri()
+                 .Download().GetAwaiter().GetResult().ToLower()
+                     .Substring($"<meta property=\"og:title\" content=\"{package.ToLower()} ", "\"", inclusive: false);
+            }
+            catch (Exception ex) when (ex.Message.Contains("404") || ex.Message.Contains("429"))
+            {
+                throw new Exception("Failed to find latest nuget version for " + package);
+            }
         }
     }
 }

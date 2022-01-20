@@ -28,16 +28,17 @@ namespace MSharp.Build
 
             if (IsDotNetCore)
             {
-                Lib = new[] { "3.1", "2.2", "2.1" }.Select(x => Lib.GetSubDirectory("netcoreapp" + x))
-                    .FirstOrDefault(x => x.Exists())
-                    ?? throw new Exception("netcoreapp3.1 folder is not found in " + Lib.FullName);
+                Lib = Lib.GetDirectories()
+                       .Where(x => x.Name.StartsWith("net") && x.Name.Any(c => c.IsDigit()))
+                       .WithMax(x => x.Name.Where(c => c.IsDigit()).ToString(""))
+                       ?? throw new Exception("netcoreapp3.1 or net6.0 or similar folder is not found in " + Lib.FullName);
             }
         }
 
         bool IsProjectDotNetCore()
         {
             return Lib.Parent.GetSubDirectory("Model").GetFile("#Model.csproj").ReadAllText()
-                 .Contains("<TargetFramework>netcoreapp");
+                 .Contains("<TargetFramework>net");
         }
 
         protected override void AddTasks()
@@ -57,15 +58,18 @@ namespace MSharp.Build
 
         void BuildRuntimeConfigJson()
         {
-            var json = @"{  
-   ""runtimeOptions"":{  
-      ""tfm"":""VERSION"",
-      ""framework"":{  
+            var version = Lib.Name;
+            var runtime = version.SkipWhile(v => v.IsLetter()).ToString("");
+
+            var json = $@"{{  
+   ""runtimeOptions"":{{  
+      ""tfm"":""{version}"",
+      ""framework"":{{  
          ""name"":""Microsoft.NETCore.App"",
-         ""version"":""2.MINOR-VER.0""
-      }
-   }
-}".Replace("VERSION", Lib.Name).Replace("MINOR-VER", Lib.Name.Last().ToString());
+         ""version"":""{runtime}.0""
+      }}
+   }}
+}}";
             File.WriteAllText(Path.Combine(Lib.FullName, "MSharp.DSL.runtimeconfig.json"), json);
         }
 
