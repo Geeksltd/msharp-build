@@ -149,7 +149,7 @@ namespace MSharp.Build
 
         void DotnetCoreBuild(string folder, string command = null)
         {
-            if (command.IsEmpty()) command = "build -v q";
+            if (command.IsEmpty()) command = $"build {folder.AsDirectory().GetFiles("*.csproj")[0].FullName} -v q";
 
             var log = Commands.DotNet.Execute(command,
                 configuration: x =>
