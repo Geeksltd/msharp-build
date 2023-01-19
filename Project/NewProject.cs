@@ -13,18 +13,10 @@ namespace MSharp.Build.Project
         {
             Console.WriteLine("Help: http://learn.msharp.co.uk/#/Install/README");
 
-            if (Args.IsMicroserviceTemplate)
-            {
-                Add(() => CloneTemplate());
-                Add(() => ReplaceInNewProjectFiles());
-            }
-            else
-            {
-                Add(() => DownloadTemplate());
-                Add(() => ReplaceInNewProjectFiles());
-                Add(() => CopyFiles());
-                Add(() => Compile());
-            }
+            Add(() => DownloadTemplate());
+            Add(() => ReplaceInNewProjectFiles());
+            Add(() => CopyFiles());
+            Add(() => Compile());
         }
 
         void Compile()
