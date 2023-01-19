@@ -13,12 +13,38 @@ namespace MSharp.Build.Project
         void ReplaceInNewProjectFiles()
         {
             var replacements = GetReplacements();
-            ReplaceFilesContents(replacements);
+            if (Args.IsMicroserviceTemplate)
+            {
+                Log("Preparing template...");
+                Args.Destination = new DirectoryInfo(Args.Destination.FullName + "/" + "master");
+                if (Directory.Exists(Args.Destination.FullName + "/.git"))
+                {
+                    setAttributesNormal(new DirectoryInfo(Args.Destination.FullName + "/.git"));
+                    Directory.Delete(Args.Destination.FullName + "/.git", true);
+                }
+                Args.Destination.MoveTo(Args.Destination.Parent.FullName + "/" + Args.Name);
+                ReplacePlaceholders(Args.Destination.FullName, replacements);
+                ReplaceFilesContents(replacements, Args.Destination);
+            }
+            else
+            {
+                ReplaceFilesContents(replacements);
+            }
 
             if (Args.ProjectType == ProjectType.Microservice)
                 AddMicroserviceToHubServices();
-        }
 
+            Args.Destination = new DirectoryInfo(Args.Destination.FullName + Args.ServiceName);
+        }
+        void setAttributesNormal(DirectoryInfo dir)
+        {
+            foreach (var subDir in dir.GetDirectories())
+                setAttributesNormal(subDir);
+            foreach (var file in dir.GetFiles())
+            {
+                file.Attributes = FileAttributes.Normal;
+            }
+        }
         Dictionary<string, string> GetReplacements()
         {
             if (Args.ProjectType == ProjectType.Microservice)
@@ -28,6 +54,8 @@ namespace MSharp.Build.Project
                 {
                     {"MY.MICROSERVICE.NAME", Args.Name},
                     {"MY.SOLUTION", Args.Destination.Name},
+                    {"SERVICENAME", Args.ServiceName},
+                    {"PROJECTNAME", Args.Name},
                     {"9012", GetPortNumberForMicroservice()}
                 };
                 if (domain.HasValue())
@@ -50,10 +78,33 @@ namespace MSharp.Build.Project
             return new Dictionary<string, string>();
         }
 
-        void ReplaceFilesContents(Dictionary<string, string> dic)
+        void ReplacePlaceholders(string path, Dictionary<string, string> dic)
+        {
+            var directory = new DirectoryInfo(path);
+
+            foreach (var subDirectory in directory.GetDirectories("*", SearchOption.TopDirectoryOnly))
+            {
+                ReplacePlaceholders(subDirectory.Parent.FullName + @"\" + subDirectory.Name, dic);
+                string folderName = subDirectory.Name;
+
+                foreach (var d in dic)
+                {
+                    if (subDirectory.Name.Contains(d.Key))
+                    {
+                        folderName = folderName.Replace(d.Key, d.Value);
+                        string strFolderRoot = subDirectory.Parent.FullName + "\\" + folderName;
+
+                        subDirectory.MoveTo(strFolderRoot);
+                    }
+                }
+            }
+        }
+
+        void ReplaceFilesContents(Dictionary<string, string> dic, DirectoryInfo dir = null)
         {
             Log("Renaming file contents ...");
-            foreach (var file in Args.TempTemplate.GetFiles(includeSubDirectories: true))
+            var directoryInfo = dir ?? Args.TempTemplate;
+            foreach (var file in directoryInfo.GetFiles(includeSubDirectories: true))
             {
                 if (Path.GetExtension(file).EndsWith("exe", StringComparison.OrdinalIgnoreCase)) continue;
 
