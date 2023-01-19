@@ -15,7 +15,7 @@ namespace MSharp.Build.Project
         public string TemplateWebAddress;
         public ProjectType ProjectType;
         public DirectoryInfo Destination = Environment.CurrentDirectory.AsDirectory();
-        public DirectoryInfo TempTemplate = Path.GetTempPath().AsDirectory().GetOrCreateSubDirectory("msharp-build\\" + Guid.NewGuid());
+        public DirectoryInfo TempTemplate = Path.GetTempPath().AsDirectory().GetOrCreateSubDirectory(Path.Combine( "msharp-build" , Guid.NewGuid().ToString()));
         public bool IsMicroserviceTemplate { get { return !string.IsNullOrEmpty(Template) && !string.IsNullOrEmpty(ServiceName); } }
         internal Dictionary<string, string> BitbucketRepoTokens
         {

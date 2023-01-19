@@ -80,11 +80,11 @@ namespace MSharp.Build
                 configuration: x => x.StartInfo.WorkingDirectory = Root.FullName);
         }
 
-        void BuildMSharpModel() => DotnetBuild("M#\\Model");
+        void BuildMSharpModel() => DotnetBuild(Path.Combine("M#", "Model"));
 
         void BuildAppDomain() => DotnetBuild("Domain");
 
-        void BuildMSharpUI() => DotnetBuild("M#\\UI");
+        void BuildMSharpUI() => DotnetBuild(Path.Combine("M#", "UI"));
 
         void BuildAppWebsite()
         {
@@ -93,7 +93,7 @@ namespace MSharp.Build
                 RestorePackagesConfig("Website");
                 CopyDllsToWebsite();
             }
-            else DotnetBuild("Website", "publish -o ..\\publish".OnlyWhen(Publish));
+            else DotnetBuild("Website", $"publish -o ..{Path.PathSeparator}publish".OnlyWhen(Publish));
         }
 
         void CopyDllsToWebsite()
@@ -138,7 +138,7 @@ namespace MSharp.Build
                 var solution = GetProjectSolution();
                 var projName = folder;
                 var project = folder.AsDirectory().GetFiles("*.csproj")[0].FullName;
-                if (folder.StartsWith("M#\\")) projName = "#" + folder.TrimStart("M#\\");
+                if (folder.StartsWith("M#")) projName = "#" + folder.Substring(3);
 
                 var dep = " /p:BuildProjectReferences=false".OnlyWhen(folder.StartsWith("M#"));
 
@@ -199,11 +199,11 @@ namespace MSharp.Build
         {
             if (!IsDotNetCore) return;
 
-            var exe = Folder("Website\\wwwroot\\Styles\\Build\\SassCompiler.exe").AsFile();
+            var exe = Folder(Path.Combine("Website", "wwwroot", "Styles", "Build", "SassCompiler.exe")).AsFile();
 
             var log = "SKIPPED! " + exe.FullName + " file does not exist";
 
-            var args = "\"" + Folder("Website\\CompilerConfig.json") + "\"";
+            var args = "\"" + Folder(Path.Combine("Website", "CompilerConfig.json")) + "\"";
             if (exe.Exists())
                 log = exe.Execute(args);
 

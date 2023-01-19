@@ -92,9 +92,7 @@ namespace MSharp.Build.Project
                     if (subDirectory.Name.Contains(d.Key))
                     {
                         folderName = folderName.Replace(d.Key, d.Value);
-                        string strFolderRoot = subDirectory.Parent.FullName + "\\" + folderName;
-
-                        subDirectory.MoveTo(strFolderRoot);
+                        subDirectory.MoveTo(subDirectory.GetSubDirectory(folderName).FullName);
                     }
                 }
             }

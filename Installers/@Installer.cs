@@ -48,10 +48,10 @@ namespace MSharp.Build.Installers
 
             var parts = Environment.GetEnvironmentVariable("PATH").TrimOrEmpty().Split(';')
             .Concat(new[] { toCheck.Directory.FullName })
-            .Select(x => x + "\\")
-            .Select(x => x.Replace("\\\\", "\\"))
+            .Select(x => x + Path.PathSeparator)
+            .Select(x => x.Replace(Path.PathSeparator.ToString() + Path.PathSeparator, Path.PathSeparator.ToString()))
             .Distinct()
-            .OrderBy(x => x.Contains("\\."));
+            .OrderBy(x => x.Contains(Path.PathSeparator + "."));
 
             var newPath = string.Join(";", parts);
 

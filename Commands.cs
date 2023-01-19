@@ -46,7 +46,7 @@ namespace MSharp.Build
         static FileInfo System32(string relative)
         {
             return Environment.SpecialFolder.Windows
-                .GetFile("System32\\" + relative)
+                .GetFile(Path.Combine("System32", relative))
                 .ExistsOrThrow();
         }
     }
