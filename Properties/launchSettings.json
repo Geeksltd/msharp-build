@@ -2,7 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "workingDirectory": "C:\\digence.app"
+      "commandLineArgs": "/new-ms /n:\"AkerSolutions\" /service:\"Email\" /template:\"akersolutions.microservice.template",
+      "workingDirectory": "d:\\New Folder\\AkerSolutions\\"
     }
   }
 }
