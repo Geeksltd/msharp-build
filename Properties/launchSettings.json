@@ -2,8 +2,7 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/new-fs /n:\"HoustonCox\"",
-      "workingDirectory": "d:\\temp\\HC"
+      "workingDirectory": "C:\\digence.app"
     }
   }
 }

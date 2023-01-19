@@ -26,7 +26,7 @@ namespace MSharp.Build
 
         void FindProjectFiles()
         {
-            ProjectFiles = new[] { "Website", "Domain", "M#\\Model", "M#\\UI" }
+            ProjectFiles = new[] { "Website", "Domain",Path.Combine("M#","Model"), Path.Combine("M#","UI") }
                 .Select(OliveSolution.Root.GetSubDirectory)
                 .Where(v => v.Exists())
                    .Select(v => v.GetFiles("*.csproj").WithMax(x => x.LastWriteTimeUtc))

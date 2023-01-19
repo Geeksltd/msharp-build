@@ -203,8 +203,9 @@ namespace MSharp.Build
 
             var log = "SKIPPED! " + exe.FullName + " file does not exist";
 
+            var args = "\"" + Folder("Website\\CompilerConfig.json") + "\"";
             if (exe.Exists())
-                log = exe.Execute("\"" + Folder("Website\\CompilerConfig.json") + "\"");
+                log = exe.Execute(args);
 
             Log(log);
         }
