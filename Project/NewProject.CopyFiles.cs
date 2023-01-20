@@ -18,8 +18,8 @@ namespace MSharp.Build.Project
 
         bool CopyFolderContents(string sourcePath, string destinationPath)
         {
-            sourcePath = sourcePath.EndsWith(@"\") ? sourcePath : sourcePath + @"\";
-            destinationPath = destinationPath.EndsWith(@"\") ? destinationPath : destinationPath + @"\";
+            sourcePath = sourcePath.EndsWith(Path.PathSeparator) ? sourcePath : sourcePath + Path.PathSeparator;
+            destinationPath = destinationPath.EndsWith(Path.PathSeparator) ? destinationPath : destinationPath + Path.PathSeparator;
 
             try
             {
@@ -31,7 +31,7 @@ namespace MSharp.Build.Project
                     foreach (var files in Directory.GetFiles(sourcePath))
                     {
                         var fileInfo = files.AsFile();
-                        fileInfo.CopyTo($@"{destinationPath}\{fileInfo.Name}", overwrite: true);
+                        fileInfo.CopyTo(Path.Combine(destinationPath, fileInfo.Name), overwrite: true);
                     }
 
                     foreach (var drs in Directory.GetDirectories(sourcePath))

@@ -84,7 +84,7 @@ namespace MSharp.Build.Project
 
             foreach (var subDirectory in directory.GetDirectories("*", SearchOption.TopDirectoryOnly))
             {
-                ReplacePlaceholders(subDirectory.Parent.FullName + @"\" + subDirectory.Name, dic);
+                ReplacePlaceholders(Path.Combine(subDirectory.Parent.FullName, subDirectory.Name), dic);
                 string folderName = subDirectory.Name;
 
                 foreach (var d in dic)

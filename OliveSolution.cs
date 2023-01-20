@@ -14,7 +14,7 @@ namespace MSharp.Build
         static OliveSolution()
         {
             Root = Environment.CurrentDirectory.AsDirectory();
-            Lib = Root.CreateSubdirectory(@"M#\lib");
+            Lib = Root.CreateSubdirectory(Path.Combine("M#","lib"));
         }
 
         public OliveSolution(bool publish)
