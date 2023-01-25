@@ -85,7 +85,7 @@ namespace MSharp.Build.Project
             }
             else
             {
-                MicroserviceProjectFolderExists = Directory.Exists(Destination.FullName + "/" + Name);
+                MicroserviceProjectFolderExists = Directory.Exists(Path.Combine(Destination.FullName, Name));
             }
         }
     }
