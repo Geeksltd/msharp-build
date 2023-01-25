@@ -16,13 +16,13 @@ namespace MSharp.Build.Project
             if (Args.IsMicroserviceTemplate)
             {
                 Log("Preparing template...");
-                Args.Destination = new DirectoryInfo(Args.Destination.FullName + "/" + "master");
+                Args.Destination = new DirectoryInfo(Path.Combine(Args.Destination.FullName, "master"));
                 if (Directory.Exists(Args.Destination.FullName + "/.git"))
                 {
-                    setAttributesNormal(new DirectoryInfo(Args.Destination.FullName + "/.git"));
-                    Directory.Delete(Args.Destination.FullName + "/.git", true);
+                    setAttributesNormal(new DirectoryInfo(Path.Combine(Args.Destination.FullName, ".git")));
+                    Directory.Delete(Path.Combine(Args.Destination.FullName, ".git"), true);
                 }
-                Args.Destination.MoveTo(Args.Destination.Parent.FullName + "/" + Args.Name);
+                Args.Destination.MoveTo(Path.Combine(Args.Destination.Parent.FullName, Args.Name));
                 ReplacePlaceholders(Args.Destination.FullName, replacements);
                 ReplaceFilesContents(replacements, Args.Destination);
             }
@@ -34,7 +34,7 @@ namespace MSharp.Build.Project
             if (Args.ProjectType == ProjectType.Microservice)
                 AddMicroserviceToHubServices();
 
-            Args.Destination = new DirectoryInfo(Args.Destination.FullName + Args.ServiceName);
+            Args.Destination = new DirectoryInfo(Path.Combine(Args.Destination.FullName, Args.ServiceName));
         }
         void setAttributesNormal(DirectoryInfo dir)
         {

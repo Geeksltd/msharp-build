@@ -16,6 +16,8 @@ namespace MSharp.Build.Project
         public ProjectType ProjectType;
         public DirectoryInfo Destination = Environment.CurrentDirectory.AsDirectory();
         public DirectoryInfo TempTemplate = Path.GetTempPath().AsDirectory().GetOrCreateSubDirectory(Path.Combine( "msharp-build" , Guid.NewGuid().ToString()));
+
+        public bool MicroserviceProjectFolderExists = false;
         public bool IsMicroserviceTemplate { get { return !string.IsNullOrEmpty(Template) && !string.IsNullOrEmpty(ServiceName); } }
         internal Dictionary<string, string> BitbucketRepoTokens
         {
@@ -80,6 +82,10 @@ namespace MSharp.Build.Project
             if (!IsMicroserviceTemplate)
             {
                 Destination = Destination.GetSubDirectory(Name).EnsureExists();
+            }
+            else
+            {
+                MicroserviceProjectFolderExists = Directory.Exists(Path.Combine(Destination.FullName, Name));
             }
         }
     }
