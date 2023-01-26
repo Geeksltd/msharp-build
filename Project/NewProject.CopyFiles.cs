@@ -18,8 +18,8 @@ namespace MSharp.Build.Project
 
         bool CopyFolderContents(string sourcePath, string destinationPath)
         {
-            sourcePath = sourcePath.EndsWith(Path.PathSeparator) ? sourcePath : sourcePath + Path.PathSeparator;
-            destinationPath = destinationPath.EndsWith(Path.PathSeparator) ? destinationPath : destinationPath + Path.PathSeparator;
+            sourcePath = sourcePath.EndsWith(Path.DirectorySeparatorChar) ? sourcePath : sourcePath + Path.DirectorySeparatorChar;
+            destinationPath = destinationPath.EndsWith(Path.DirectorySeparatorChar) ? destinationPath : destinationPath + Path.DirectorySeparatorChar;
 
             try
             {

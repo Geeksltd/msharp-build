@@ -93,7 +93,7 @@ namespace MSharp.Build
                 RestorePackagesConfig("Website");
                 CopyDllsToWebsite();
             }
-            else DotnetBuild("Website", $"publish -o ..{Path.PathSeparator}publish".OnlyWhen(Publish));
+            else DotnetBuild("Website", $"publish -o ..{Path.DirectorySeparatorChar}publish".OnlyWhen(Publish));
         }
 
         void CopyDllsToWebsite()

@@ -2,8 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/new-ms /n:\"AkerSolutions\" /service:\"Email\" /template:\"akersolutions.microservice.template",
-      "workingDirectory": "d:\\New Folder\\AkerSolutions\\"
+      "commandLineArgs": "/new /n:\"MyTestDelete2\"",
+      "workingDirectory": "D:\\"
     }
   }
 }
