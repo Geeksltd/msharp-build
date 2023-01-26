@@ -15,13 +15,14 @@ namespace MSharp.Build.Project
 
             if (Args.IsMicroserviceTemplate)
             {
-                if (Args.MicroserviceProjectFolderExists)
+                if (Args.MicroserviceFolderExists)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"A folder with the name of {Args.Name} already exists. Please try to create in another folder");
+                    Console.WriteLine($"A folder with the name of {Args.ServiceName} already exists. Please try to create in another folder");
                 }
                 else
                 {
+                    Add(() => CreateProjectFolder());
                     Add(() => CloneTemplate());
                     Add(() => ReplaceInNewProjectFiles());
                 }
