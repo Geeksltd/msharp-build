@@ -1,6 +1,7 @@
 ﻿using Olive;
 using System;
 using System.Diagnostics;
+using System.IO;
 using System.IO.Compression;
 using System.Net;
 
@@ -18,7 +19,11 @@ namespace MSharp.Build.Project
             {
                 throw new ArgumentException("template is not valid");
             }
-            var process = Process.Start("cmd", $"/c git clone https://x-token-auth:{token}@bitbucket.org/geeks-ltd/{Args.Template}/get/master");
+            var processStartInfo = new ProcessStartInfo();
+            processStartInfo.WorkingDirectory = Path.Combine(Args.Destination.FullName, Args.Name);
+            processStartInfo.FileName = "cmd.exe";
+            processStartInfo.Arguments = $"/c git clone https://x-token-auth:{token}@bitbucket.org/geeks-ltd/{Args.Template}/get/master";
+            var process = Process.Start(processStartInfo);
             process.WaitForExit();
         }
 
