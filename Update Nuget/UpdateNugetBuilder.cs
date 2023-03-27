@@ -39,7 +39,7 @@ namespace MSharp.Build
                 .To<XDocument>().Root.RemoveNamespaces()
                 .Descendants(XName.Get("PackageReference"))
                 .Select(v => new NugetReference(v.GetValue<string>("@Include"), v.GetValue<string>("@Version"), csproj))
-                .Where(v => v.Name.StartsWith("Olive") || v.Name.StartsWith("MSharp"))
+                .Where(v => v.Name.StartsWith("Olive") || v.Name.StartsWith("MSharp") || v.Name.StartsWith("FS.Shared.Website"))
                 .ToArray();
         }
 
