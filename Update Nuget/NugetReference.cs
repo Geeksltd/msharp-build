@@ -21,9 +21,18 @@ namespace MSharp.Build.UpdateNuget
         {
             try
             {
+                if(package== "FS.Shared.Website")
+                {
+                    var ss= $"https://nuget.app.geeks.ltd/packages/{package}/".AsUri()
+                 .Download().GetAwaiter().GetResult().ToLower();
+                     var kk= ss.Substring("<title>fs.shared.website ", " - baget</title>", inclusive: false);
+                    return kk;
+                }
+                else { 
                 return $"https://www.nuget.org/packages/{package}/".AsUri()
                  .Download().GetAwaiter().GetResult().ToLower()
                      .Substring($"<meta property=\"og:title\" content=\"{package.ToLower()} ", "\"", inclusive: false);
+                    }
             }
             catch (Exception ex) when (ex.Message.Contains("404") || ex.Message.Contains("429"))
             {

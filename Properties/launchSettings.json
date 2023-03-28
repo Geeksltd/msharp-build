@@ -2,8 +2,8 @@
   "profiles": {
     "MSharp.Build": {
       "commandName": "Project",
-      "commandLineArgs": "/new /n:\"MyTestDelete2\"",
-      "workingDirectory": "D:\\"
+      "commandLineArgs": "/update-nuget",
+      "workingDirectory": "D:\\geeksprojects\\geeksms.projects\\master"
     }
   }
 }
