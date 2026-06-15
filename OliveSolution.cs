@@ -30,8 +30,8 @@ namespace MSharp.Build
             {
                 Lib = Lib.GetDirectories()
                        .Where(x => x.Name.StartsWith("net") && x.Name.Any(c => c.IsDigit()))
-                       .WithMax(x => x.Name.Where(c => c.IsDigit()).ToString(""))
-                       ?? throw new Exception("netcoreapp3.1 or net6.0 or similar folder is not found in " + Lib.FullName);
+                       .WithMax(x => x.Name.Where(c => c.IsDigit()).ToString("").To<int>())
+                       ?? throw new Exception("netcoreapp3.1 or net8.0 or net10.0 or similar folder is not found in " + Lib.FullName);
             }
         }
 
